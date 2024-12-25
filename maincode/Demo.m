@@ -140,7 +140,7 @@ instF = [instF;instF(end,:)];
 %% get IMFs information for each pairs of IMFs
 % i:phase. j:amplitude.
 for i=EEGnum:modenum % get phase from amplitude
-    for j=1:i-1 % amplitude
+    for j=1:EEGnum-1 % amplitude
         %% available points according to cycleF ratio(Niquist rate)
         if Fpercent(j,i)>10
             pts = find(Fratio{j,i}>=2);%
@@ -161,7 +161,7 @@ end
 %% Computing amplitude vs. phase distributions.
 MI = zeros(modenum,modenum);
 for i=EEGnum:modenum % phase
-    for j=1:i-1 % amplitude
+    for j=1:EEGnum-1 % amplitude
         if ~isempty(PTS{j,i}) && size(P_tempP{j,i},2)~=0 && ~isempty(A_tempA{j,i}) && size(bands_tempA{j,i},1)~=0
             %% plot and computing amplitude vs. phase distributions
             [M(:,j,i),validMode{j,i}] = PACdistribution2(P_tempP{j,i},A_tempA{j,i},nobins);
@@ -182,7 +182,7 @@ MImean = zeros(size(MI));
 MIstd = zeros(size(MI));
 if noshufs>0
     for i=EEGnum:modenum % phase
-        for j=1:i-1 % amplitude
+        for j=1:EEGnum-1 % amplitude
             if ~isempty(PTS{j,i}) && ~isempty(A_tempA{j,i}) && size(P_tempP{j,i},2)~=0
                 [MI_z_scores(j,i),MImean(j,i),MIstd(j,i)] = ...
                     inv_entropy_distn(noshufs,nobins,...
